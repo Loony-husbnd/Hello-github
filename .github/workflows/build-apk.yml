@@ -1,19 +1,22 @@
-name: Build FolderGuard APK
+name: Build FolderGuard APKs
 on:
   push:
-    paths: ['FolderGuard/**', '.github/workflows/build-apk.yml']
+    paths: ['FolderGuard/**', 'FolderGuardTab/**', '.github/workflows/build-apk.yml']
   workflow_dispatch:
 jobs:
   build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        project: [FolderGuard, FolderGuardTab]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
         with: { distribution: temurin, java-version: '17' }
       - uses: gradle/actions/setup-gradle@v3
         with: { gradle-version: '8.5' }
-      - run: gradle -p FolderGuard assembleDebug --no-daemon
+      - run: gradle -p ${{ matrix.project }} assembleDebug --no-daemon
       - uses: actions/upload-artifact@v4
         with:
-          name: FolderGuard-debug-apk
-          path: FolderGuard/app/build/outputs/apk/debug/*.apk
+          name: ${{ matrix.project }}-debug-apk
+          path: ${{ matrix.project }}/app/build/outputs/apk/debug/*.apk

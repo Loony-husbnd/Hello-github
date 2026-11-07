@@ -1,0 +1,22 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace 'com.foldersec.guard'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId 'com.foldersec.guard'
+        minSdk 23          // 갤럭시 폴더2 (Android 6.0 이상)
+        targetSdk 28       // 구형 기기용: 백그라운드 카메라/오디오 제약이 적은 타깃
+        versionCode 1
+        versionName '1.0'
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    lint { abortOnError false }
+}
+// 외부 라이브러리 의존성 없음 (APK 용량/메모리 최소화)
